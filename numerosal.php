@@ -16,6 +16,8 @@ session_start();
     <?php
 
     if (!isset($_SESSION["numero_minimo"])) { 
+        //!= NO----
+        // -if(!isset)= si no existe
         $_SESSION["numero_minimo"] = 1; //esto solo se cumplira la primera vez despues se mueven los rangos
         $_SESSION["numero_maximo"]= 100;
     } 
