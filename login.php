@@ -2,7 +2,15 @@
 $errores = []; //array para guardar errores, si es que los hay
 $mensaje_exito = ""; //mensaje por si la contraseña es valida
 
-//verificacion del formulario
+//ARCHIVO LOOOOOOOG
+
+$log_file = 'password_int.log';
+
+
+
+
+//verificacion de la contraseña con las siguientes reglas:
+
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
     //obtener contraseña
@@ -37,12 +45,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $errores[] = "debe contener al menos un caracter especial";
     }
 
+    //codigo log
     //si el array $errores[] esta vacio, la contraseña es valida
     if (empty($errores)) {
         $mensaje_exito= "CONTRASEÑA VALIDA";
     }
 
-    // NOTA: Toda la lógica de 'echo' se movió al HTML de abajo
+
+
+//si el array $errores[] esta vacio, la contraseña es valida
+    if (empty($errores)) {
+        $mensaje_exito= "CONTRASEÑA VALIDA";
+        
+        // NO SE GUARDA NADA AQUÍ
+    
+
+    } else {
+        // LOG DE ERRORES 
+        //fecha de la hora en el momento en que se hizo lo de la contraseña invalida
+        $fecha = date('Y-m-d H:i:s'); //(year-month.-day)
+        
+        //                implode() para convertir el array de errores en un solo string
+        $errores_string = implode(", ", $errores); 
+        
+        // Creamos el mensaje
+        $mensaje_log = "[$fecha] - CONTRASEÑA INVÁLIDA. Errores: [$errores_string]" . PHP_EOL; 
+        //. PHP_EOL  (END OF LINES)
+        // Guardamos en el archivo
+        file_put_contents($log_file, $mensaje_log, FILE_APPEND | LOCK_EX); 
+        //FILE_APPEND: aÑADIR AL FINAL
+        //LOCK_EX: BLOQUEO ESCLUSIVO PARA NO ECRIBIR AL MISMO TIEMPPO
+    }
+
 }
 ?>
 
@@ -50,14 +84,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale-1.0">
     <title>LOGIN</title>
 </head>
 <body>
 <h1>Validador de contraseña </h1>  
 
 <?php
-// ERROR 3 CORREGIDO: Lógica de mensajes simplificada y movida DENTRO del body
 // Si el array $errores NO está vacío, la contraseña NO es válida:
 if (!empty($errores)) {
     echo "<p><b>CONTRASEÑA INVALIDA:</b></p>";

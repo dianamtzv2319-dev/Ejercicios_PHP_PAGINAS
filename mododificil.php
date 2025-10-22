@@ -11,65 +11,71 @@ session_start(); // Inicia o reanuda la sesión
 <body>
 
 <?php
-// Se obtiene el número ingresado por el usuario
-$num_jugador = (int)$_POST["form_dificilnum"];
 
-// se inicializa la sesión del juego
-if (!isset($_SESSION["num_aleatorio2"])) {
-    $_SESSION["num_aleatorio2"] = rand(1, 100); // numero del 1al 100
-    $_SESSION["intent_rest"] = 5;               // intentos restantes
-    $_SESSION["numero_minimo2"] = 1;            // límite min
-    $_SESSION["numero_maximo2"] = 100;          // límite max
-}
+if ( !isset($_POST["form_dificilnum"]) || !is_numeric($_POST["form_dificilnum"]) ) {
 
-// Se muestra el número de intentos realizados y restantes
-$intentos_realizados = 5 - $_SESSION["intent_rest"]; // porque empezamos con 5
-?>
-<p>Número de intentos: <?php echo $intentos_realizados; //imprime los que lleva ?></p>
-<p>Intentos restantes: <?php echo $_SESSION["intent_rest"]; //imprime los restantes?></p>
+    echo "<p>Error: No has enviado un número válido.</p>";
+    echo '<p><a href="numerosal.php">Volver al juego</a></p>';
 
-<?php
-// Se comprueba si el número del jugador es correcto
-if ($_SESSION["num_aleatorio2"] == $num_jugador) {
-    // Si se adivina el número, se acaba el juego
-    
-    ?>
-    <p>¡CORRECTO!</p>
-    <p><a href="numerosal.php">NUEVA PARTIDA</a></p>
-<?php session_destroy(); ?>
-<?php
 } else {
-    // Si es incorrecto, se resta un intento
-    $_SESSION["intent_rest"]--; //se restan intentos
+    // SI LO ANTERIOR PASA, SE EJECUTA EL JUEGO
 
-    // Comprobamos si hay intentos restantes
-    if ($_SESSION["intent_rest"] == 0) { //si aun quedan intentos continua
-        // Se acabaron los intentos: juego perdido
-        $numero_secreto = $_SESSION["num_aleatorio2"];
-        
+    $num_jugador = (int)$_POST["form_dificilnum"];
 
-        // en caso de que no queden intentos, el usuario pierde ?> 
-        <p>¡PERDISTE!se acabaron tus 5 intentos</p>
-        <p>El número que tenias que adivinar era: <?php echo $numero_secreto; ?></p>
-        <p><a href="numerosal.php">Jugar de nuevo</a></p>
-        <?php session_destroy(); ?>
-        <?php
-    } else { //en caso de que un queden intentos, se continua con el jeugo
-        // Se actualizan los valores mínimos y máximos como pista
-        if ($num_jugador > $_SESSION["num_aleatorio2"]) {
-            $_SESSION["numero_maximo2"] = $num_jugador; //limites para los numeros
-            echo "<p>El número es menor que $num_jugador.</p>";
-        } else {
-            $_SESSION["numero_minimo2"] = $num_jugador;
-            echo "<p>El número es mayor que $num_jugador.</p>";
-        }
-        ?>
-        <p><strong>INCORRECTO, Sigue intentando</strong></p>
-        <p><strong>Pista:</strong> El número está entre <?php echo $_SESSION["numero_minimo2"]; ?> y <?php echo $_SESSION["numero_maximo2"]; ?></p>
-        <p><a href="numerosal.php">INTENTAR DE NUEVO</a></p>
-        <?php
+    // se inicializa la sesión del juego (solo la primera vez)
+    if (!isset($_SESSION["num_aleatorio2"])) {
+        $_SESSION["num_aleatorio2"] = rand(1, 100); //NUMERO RANDOM 1-100
+        $_SESSION["intent_rest"] = 5;          
+        $_SESSION["numero_minimo2"] = 1;      
+        $_SESSION["numero_maximo2"] = 100;    
     }
-}
+
+    //conteo de intentos
+    $intento_actual = 5 - $_SESSION["intent_rest"] + 1;
+    ?>
+    <p><strong>Intento: <?php echo $intento_actual; ?> de 5</strong></p>
+    <?php
+
+    // Se comprueba si el número del jugador es correcto
+    if ($_SESSION["num_aleatorio2"] == $num_jugador) {
+        //SI SE GANO EL JUEGO:
+        ?>
+        <p>¡CORRECTO! </p>
+        <p><a href="numerosal.php">NUEVA PARTIDA</a></p>
+        <?php 
+        session_destroy(); 
+
+    } else {
+        // SI ES INCORRECTO
+        $_SESSION["intent_rest"]--; // Se resta un intento
+
+        if ($_SESSION["intent_rest"] == 0) {
+            // SSI ES INCORRECTO
+            $numero_secreto = $_SESSION["num_aleatorio2"];
+            ?> 
+            <p>¡PERDISTE! Se acabaron tus 5 intentos.</p>
+            <p>El número que tenias que adivinar era: <?php echo $numero_secreto; ?></p>
+            <p><a href="numerosal.php">Jugar de nuevo</a></p>
+            <?php 
+            session_destroy(); 
+
+        } else {
+            // SI AUN TIENE OPRTUNIDADES, SE DAN PISTAS
+            if ($num_jugador > $_SESSION["num_aleatorio2"]) {
+                $_SESSION["numero_maximo2"] = $num_jugador; 
+                echo "<p>El número es <strong>menor</strong> que $num_jugador.</p>";
+            } else {
+                $_SESSION["numero_minimo2"] = $num_jugador;
+                echo "<p>El número es <strong>mayor</strong> que $num_jugador.</p>";
+            }
+            ?>
+            <p><strong>INCORRECTO, Sigue intentando...</strong></Gg>
+            <p><strong>Pista:</strong> El número está entre <?php echo $_SESSION["numero_minimo2"]; ?> y <?php echo $_SESSION["numero_maximo2"]; ?></p>
+            <p><a href="numerosal.php">INTENTAR DE NUEVO</a></p>
+            <?php
+        }
+    }
+} // Cierre del 'else' de la validación
 ?>
 
 </body>
