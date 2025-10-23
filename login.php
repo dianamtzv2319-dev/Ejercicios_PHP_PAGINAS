@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
 
 
-//si el array $errores[] esta vacio, la contraseña es valida
+//si el array $errores[] esta vacio, la contraseña es invalida
     if (empty($errores)) {
         $mensaje_exito= "CONTRASEÑA VALIDA";
         
@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     } else {
         // LOG DE ERRORES 
         //fecha de la hora en el momento en que se hizo lo de la contraseña invalida
-        $fecha = date('Y-m-d H:i:s'); //(year-month.-day)
+        $fecha = date('Y-m-d H:i:s'); //(year-month-day)
         
         //                implode() para convertir el array de errores en un solo string
         $errores_string = implode(", ", $errores); 
