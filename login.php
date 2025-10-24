@@ -41,7 +41,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
     //al menos un caracter especial
     if (!preg_match('/[\W_]/', $password)) {
-        // ERROR 2 CORREGIDO: Mensaje de error correcto
+        //[\W]= engloba caracteres especiales, menos el _, así que se le agrega el _
+        // por lo que quedaria: [\W]_
         $errores[] = "debe contener al menos un caracter especial";
     }
 
