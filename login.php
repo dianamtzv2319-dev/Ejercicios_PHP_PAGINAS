@@ -14,7 +14,7 @@ $log_file = 'password_int.log';
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
     //obtener contraseña
-    // ERROR 1 CORREGIDO: Cambiado "Password" a "password"
+    
     $password = $_POST["password"]; 
 
     //reglas para la contraseña

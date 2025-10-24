@@ -2,6 +2,8 @@
 session_start();
 //inicia sesion
 //es una memoria
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,6 +14,7 @@ session_start();
 </head>
 <body>
     <?php
+
 
     //JUEGO 1
     if (!isset($_SESSION["numero_minimo"])) {  //si !=NO EXISTE
@@ -28,6 +31,8 @@ session_start();
     } 
     ?>
 <center>
+   
+
 <p><strong>Juego: Adivina un número</strong></p>
 <form method="post" action="comprobar.php"> 
    
