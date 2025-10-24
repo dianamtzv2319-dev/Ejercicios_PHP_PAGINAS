@@ -36,6 +36,7 @@ session_start();
 <p><strong>Juego: Adivina un número</strong></p>
 <form method="post" action="comprobar.php"> 
    
+   
     <p>Escribe un número entre <?php echo $_SESSION["numero_minimo"]?> y <?php echo $_SESSION["numero_maximo"]?>:</p>
     
     <input type="number" name="form_num" 

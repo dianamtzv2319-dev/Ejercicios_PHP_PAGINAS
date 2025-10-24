@@ -3,6 +3,7 @@ session_start();
 //crea una sesion o reanuda la que ya esta 
 
 
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -54,7 +55,6 @@ if ( !isset($_POST["form_num"]) || !is_numeric($_POST["form_num"]) ) {
         session_destroy();
         ?>
         <p>¡CORRECTO! El número era <?php echo $num_jugador; ?>.</p>
-
 
         <p><a href="numerosal.php">NUEVA PARTIDA</a></p>
     <?php 

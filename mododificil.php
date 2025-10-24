@@ -43,6 +43,11 @@ if ( !isset($_POST["form_dificilnum"]) || !is_numeric($_POST["form_dificilnum"])
         <p>¡CORRECTO! </p>
         <p><a href="numerosal.php">NUEVA PARTIDA</a></p>
     
+
+
+
+
+
     
     
     

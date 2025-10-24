@@ -65,11 +65,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         // LOG DE ERRORES 
         //fecha de la hora en el momento en que se hizo lo de la contraseña invalida
         $fecha = date('Y-m-d H:i:s'); //(year-month-day)
+        //comando para que de la fecha en tiempo real
         
         //                implode() para convertir el array de errores en un solo string
         $errores_string = implode(", ", $errores); 
         
         // Creamos el mensaje
+        //para que se guarde en el archivo .log
         $mensaje_log = "[$fecha] - CONTRASEÑA INVÁLIDA. Errores: [$errores_string]" . PHP_EOL; 
         //. PHP_EOL  (END OF LINES)
         // Guardamos en el archivo
