@@ -24,7 +24,7 @@
     $search= (isset($_GET['search'])) ? $_GET['search'] : "" ;
     //si (isset($_GET['search'])) esta definido obten $_GET['search'] 
     //: representan un ELSE 
-    //y si no esta ponlo basio
+    //y si no esta ponlo vacio
 
 
     if (isset($search)&&strlen($search)>0){ 
